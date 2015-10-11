@@ -105,5 +105,5 @@ co.ke.coterie.audio.player.VolumeControl.prototype.setVolume = function( volume 
  */
 co.ke.coterie.audio.player.VolumeControl.prototype.displaySlider = function()
 {
-	
+	//this.volumePopup
 }
