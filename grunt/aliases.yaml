@@ -10,3 +10,8 @@ createplayer:
   description: 'Compile javascript files'
   tasks:
     - 'closureBuilder:createAudioPlayer'
+createplayerui:
+ description: 'Generate audiplayer interface'
+ tasks:
+ - 'less'
+ - 'cssmin'
