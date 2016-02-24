@@ -103,7 +103,7 @@ co.ke.coterie.audio.Sound.prototype.setVolume = function()
 	
 	if( this.getGain() )
 	{
-		this.getGain()['value']  = this.getVolume()/100;
+		this.getGain()['gain']['value']  = this.getVolume()/100;
 	}
 }
 
@@ -216,4 +216,9 @@ co.ke.coterie.audio.Sound.prototype.play = function()
 	this.animationFrame = window.requestAnimationFrame( goog.bind( this.draw, this ) );
 	
 	this.getAudio()['play']();
+}
+
+co.ke.coterie.audio.Sound.prototype.pause = function()
+{
+	this.getAudio()['pause']();
 }

@@ -2,7 +2,7 @@
  * @package   Audio Manager
  * @author    Ben <ben@coterie.co.ke>
  * @link      http://coterie.co.ke
- * Pure HTML5 audio player based on Scottschiller's SoundManager2
+ * Pure HTML5 Web Audio sound manager based on Scottschiller's SoundManager2
  * https://github.com/scottschiller/SoundManager2
  * References:
  *  - https://developer.mozilla.org/en-US/Apps/Build/Audio_and_video_delivery/buffering_seeking_time_ranges
@@ -64,7 +64,7 @@ co.ke.coterie.audio.Manager.prototype.playing_ = false;
  * Volume will range between 0 and 100
  * Default volume is 50
  */
-co.ke.coterie.audio.Manager.prototype.volume_ = 50;
+co.ke.coterie.audio.Manager.prototype.volume_ = 0;
 
 /**
  * @type {Array.<co.ke.coterie.audio.Sound>}
@@ -182,7 +182,7 @@ co.ke.coterie.audio.Manager.prototype.play = function()
  */
 co.ke.coterie.audio.Manager.prototype.pause = function()
 {
-	
+	this.activeSound.pause();
 }
 
 /**
