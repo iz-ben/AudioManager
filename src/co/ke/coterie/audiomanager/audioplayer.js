@@ -12,6 +12,8 @@ goog.provide('co.ke.coterie.audio.Player');
 goog.require('co.ke.coterie.audio.Sound');
 goog.require('co.ke.coterie.audio.Manager');
 
+goog.require('goog.ui.Control');
+
 
 /**
  * @constructor

@@ -5,6 +5,9 @@
  * References
  *  - https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createMediaElementSource
  *  - https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createAnalyser
+ *  - https://developer.mozilla.org/en-US/docs/Web/API/AudioNode
+ *  - https://developer.mozilla.org/en-US/docs/Web/API/MediaElementAudioSourceNode
+ *  - https://developer.mozilla.org/en-US/docs/Web/API/GainNode
  */
  
 goog.provide('co.ke.coterie.audio.Sound');
