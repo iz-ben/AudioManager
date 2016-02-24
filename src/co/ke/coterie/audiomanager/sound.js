@@ -20,8 +20,7 @@ goog.require('goog.Uri');
  * @param {string} source_url The url from where the audio will be played
  * @param {string} title The title of the current sound
  
- * This class will basically create and 
- * manage an audio instance using web audio
+ * This class creates and manages an audio instance implementing webAudio
 */
 co.ke.coterie.audio.Sound = function( audioManager, source_url, title )
 {

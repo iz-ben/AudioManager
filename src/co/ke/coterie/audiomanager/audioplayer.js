@@ -2,7 +2,8 @@
  * @package   Audio Player
  * @author    Ben <ben@coterie.co.ke>
  * @link      http://coterie.co.ke
- * Extends co.ke.coterie.audio.Manager and provides the UI aspect
+ * Extends co.ke.coterie.audio.Manager 
+ * Creates a player interface
  */
 
 goog.provide('audioPlayer');
