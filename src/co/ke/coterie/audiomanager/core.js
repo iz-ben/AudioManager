@@ -4,11 +4,11 @@
  * @link      http://coterie.co.ke
  * Instantiates audioManager
  */
-goog.provide('audioManager');
+goog.provide('AudioManager');
 
 goog.require('co.ke.coterie.audio.Manager');
 
 
-audioManager = new co.ke.coterie.audio.Manager;
+AudioManager = new co.ke.coterie.audio.Manager;
 
-goog.exportSymbol( 'audioManager', audioManager );
+goog.exportSymbol( 'AudioManager', AudioManager );

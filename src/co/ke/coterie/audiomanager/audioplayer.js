@@ -6,7 +6,7 @@
  * Creates a player interface
  */
 
-goog.provide('audioPlayer');
+goog.provide('AudioPlayer');
 goog.provide('co.ke.coterie.audio.Player');
 
 goog.require('co.ke.coterie.audio.Sound');
@@ -52,6 +52,6 @@ co.ke.coterie.audio.Player.prototype.seekBar;
 
 
 
-audioPlayer = new co.ke.coterie.audio.Player;
+AudioPlayer = new co.ke.coterie.audio.Player;
 
-goog.exportSymbol( 'audioPlayer', audioPlayer );
+goog.exportSymbol( 'AudioPlayer', AudioPlayer );
