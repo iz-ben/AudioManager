@@ -50,7 +50,7 @@ module.exports = {
 	createAudioManager:{
 		options: {
 			paths: ['src'],
-			namespaces: ['audioManager'], //
+			namespaces: ['AudioManager'], //
 		},
 		// [REQUIRED] paths to be traversed to build the dependencies 
 		src: ['src','E:/tools/google/closure/library/closure/goog','E:/tools/google/closure/library/lib', 'E:/tools/google/closure/library/third_party'],
@@ -61,7 +61,7 @@ module.exports = {
 	createAudioPlayer:{
 		options: {
 			paths: ['src'],
-			namespaces: ['audioPlayer'], //
+			namespaces: ['AudioPlayer'], //
 		},
 		// [REQUIRED] paths to be traversed to build the dependencies 
 		src: ['src','E:/tools/google/closure/library/closure/goog','E:/tools/google/closure/library/lib', 'E:/tools/google/closure/library/third_party'],
