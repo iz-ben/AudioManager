@@ -92,12 +92,6 @@ co.ke.coterie.audio.Sound.prototype.analyser_;
 co.ke.coterie.audio.Sound.prototype.mediaElementSource_;
 
 /**
- * Animation frame id
- * @type {number}
- */
-co.ke.coterie.audio.Sound.prototype.animationFrame = 0;
-
-/**
  * 
  */
 co.ke.coterie.audio.Sound.prototype.setVolume = function()
@@ -206,18 +200,9 @@ co.ke.coterie.audio.Sound.prototype.setup = function()
 	this.getAudio()['src'] = this.streamUrl.toString();
 }
 
-/**
- * Place functions that you want to fired with the animationFrame here
- */
-co.ke.coterie.audio.Sound.prototype.draw = function()
-{
-	this.animationFrame = window.requestAnimationFrame( goog.bind( this.draw, this ) );
-}
 
 co.ke.coterie.audio.Sound.prototype.play = function()
-{
-	this.animationFrame = window.requestAnimationFrame( goog.bind( this.draw, this ) );
-	
+{	
 	this.getAudio()['play']();
 }
 

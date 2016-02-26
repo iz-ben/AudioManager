@@ -26,7 +26,10 @@ goog.require('co.ke.coterie.audio.Sound');
 */
 co.ke.coterie.audio.Manager = function()
 {
-	goog.events.EventTarget.call(this);	
+	goog.events.EventTarget.call(this);
+	
+	//initiate animatin frame
+	this.animationFrame = window.requestAnimationFrame( goog.bind( this.animationFrameManager, this ) );
 }
 goog.inherits( co.ke.coterie.audio.Manager, goog.events.EventTarget );
 
@@ -64,7 +67,7 @@ co.ke.coterie.audio.Manager.prototype.playing_ = false;
  * Volume will range between 0 and 100
  * Default volume is 50
  */
-co.ke.coterie.audio.Manager.prototype.volume_ = 0;
+co.ke.coterie.audio.Manager.prototype.volume_ = 50;
 
 /**
  * @type {Array.<co.ke.coterie.audio.Sound>}
@@ -76,6 +79,12 @@ co.ke.coterie.audio.Manager.prototype.sounds_;
  * @type {co.ke.coterie.audio.Sound}
  */
 co.ke.coterie.audio.Manager.prototype.activeSound;
+
+/**
+ * Animation frame id
+ * @type {number}
+ */
+co.ke.coterie.audio.Manager.prototype.animationFrame = 0;
 
 /**
  * @return {number}
@@ -199,4 +208,11 @@ co.ke.coterie.audio.Manager.prototype.togglePlay = function()
 co.ke.coterie.audio.Manager.prototype.resume = function()
 {
 	
+}
+
+co.ke.coterie.audio.Manager.prototype.animationFrameManager = function()
+{
+	this.animationFrame = window.requestAnimationFrame( goog.bind( this.animationFrameManager, this ) );
+	
+	console.log(this.animationFrame);
 }
