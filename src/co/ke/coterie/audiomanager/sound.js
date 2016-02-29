@@ -1,5 +1,5 @@
 /**
- * @package   Audio Manager
+ * @package   AudioManager
  * @author    Ben <ben@coterie.co.ke>
  * @link      http://coterie.co.ke
  * References

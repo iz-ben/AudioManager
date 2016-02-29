@@ -1,5 +1,5 @@
 /**
- * @package   Audio Manager
+ * @package   AudioManager
  * @author    Ben <ben@coterie.co.ke>
  * @link      http://coterie.co.ke
  * Pure HTML5 Web Audio sound manager based on Scottschiller's SoundManager2
@@ -10,6 +10,11 @@
  *  - http://html5doctor.com/html5-audio-the-state-of-play/
  *  - http://www.w3schools.com/tags/ref_av_dom.asp
  *  - https://www.w3.org/wiki/HTML/Elements/audio
+ *  - https://developer.mozilla.org/en-US/Apps/Build/Audio_and_video_delivery/Web_Audio_API_cross_browser
+ *  - https://developer.mozilla.org/en-US/Apps/Build/Audio_and_video_delivery
+ *  - https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API
+ *  - http://www.mathsisfun.com/algebra/sohcahtoa.html
+ *  - https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API
  */
  
 goog.provide('co.ke.coterie.audio.Manager');
@@ -87,6 +92,12 @@ co.ke.coterie.audio.Manager.prototype.activeSound;
 co.ke.coterie.audio.Manager.prototype.animationFrame = 0;
 
 /**
+ * Frequency Data
+ * @type {Uint8Array}
+ */
+co.ke.coterie.audio.Manager.prototype.frequencyData;
+
+/**
  * @return {number}
  */
 co.ke.coterie.audio.Manager.prototype.getVolume = function()
@@ -125,6 +136,7 @@ co.ke.coterie.audio.Manager.prototype.setVolume = function( volume )
 /**
  * @param {co.ke.coterie.audio.Sound} sound
  * @private
+ * @return {number}
  */
 co.ke.coterie.audio.Manager.prototype.addSound = function( sound )
 {
@@ -135,6 +147,8 @@ co.ke.coterie.audio.Manager.prototype.addSound = function( sound )
 	this.activeSound = this.activeSound || sound;
 	
 	this.dispatchEvent( co.ke.coterie.audio.Manager.EventType.PLAYLISTCHANGE );
+	
+	return this.sounds_.length - 1;
 }
 
 /**
@@ -150,12 +164,13 @@ co.ke.coterie.audio.Manager.prototype.getSounds = function()
  * @param {string} soundUrl
  * @param {string} title
  * @expose
+ * @return {number}
  */
 co.ke.coterie.audio.Manager.prototype.createSound = function( soundUrl, title )
 {
 	var sound = new co.ke.coterie.audio.Sound( this, soundUrl, title );
 	
-	this.addSound(sound);
+	return this.addSound(sound);
 }
 
 /**
@@ -170,7 +185,11 @@ co.ke.coterie.audio.Manager.prototype.playSound = function(soundId)
 	
 	if(sound && sound!==this.activeSound)
 	{
+		this.activeSound.pause();
+		
 		this.activeSound = sound;
+		
+		this.frequencyData = new Uint8Array(this.activeSound.getAnalyser()['frequencyBinCount']);
 		
 		this.dispatchEvent( co.ke.coterie.audio.Manager.EventType.SOUNDCHANGE );
 		
@@ -183,6 +202,8 @@ co.ke.coterie.audio.Manager.prototype.playSound = function(soundId)
  */
 co.ke.coterie.audio.Manager.prototype.play = function()
 {
+	this.playing_ = true;
+	
 	this.activeSound.play();
 }
 
@@ -191,6 +212,8 @@ co.ke.coterie.audio.Manager.prototype.play = function()
  */
 co.ke.coterie.audio.Manager.prototype.pause = function()
 {
+	this.playing_ = false;
+	
 	this.activeSound.pause();
 }
 
@@ -199,7 +222,7 @@ co.ke.coterie.audio.Manager.prototype.pause = function()
  */
 co.ke.coterie.audio.Manager.prototype.togglePlay = function()
 {
-	
+	this.isPlaying() ? this.pause(): this.play();
 }
 
 /**
@@ -207,12 +230,24 @@ co.ke.coterie.audio.Manager.prototype.togglePlay = function()
  */
 co.ke.coterie.audio.Manager.prototype.resume = function()
 {
+	this.play();
+}
+
+co.ke.coterie.audio.Manager.prototype.processFrequencyData = function()
+{
+	if(!this.isPlaying())
+		return;
 	
+	this.activeSound.getAnalyser()['getByteFrequencyData']( this.frequencyData );
+	
+	console.log(this.frequencyData);
 }
 
 co.ke.coterie.audio.Manager.prototype.animationFrameManager = function()
 {
 	this.animationFrame = window.requestAnimationFrame( goog.bind( this.animationFrameManager, this ) );
 	
-	console.log(this.animationFrame);
+	this.processFrequencyData();
+	
+	//console.log(this.animationFrame);
 }

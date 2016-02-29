@@ -13,12 +13,21 @@
 
 <input type="range" name="volume" min="1" max="100" onChange="audiomanager.setVolume(this.value)">
 
+<h3>Playlist</h3>
+
+<ul>
+	<li><a href="#" onClick="audiomanager.playSound(blue); return false;">Eiffel65 - Blue</a></li>
+	<li><a href="#" onClick="audiomanager.playSound(roma); return false;">Dean Martin - On an evening in Roma</a></li>
+</ul>
+
 
 <script src="../js/audiomanager.min.js"></script>
 <script>
-var audiomanager = AudioManager;
+var audiomanager = AudioManager,
 
-audiomanager.createSound('http://localhost/audiomanager/dist/mp3/eiffel65-blue.mp3','Test');
+blue = audiomanager.createSound('http://localhost/audiomanager/dist/mp3/eiffel65-blue.mp3','Eiffel 65 - Blue'),
+
+roma = audiomanager.createSound('http://localhost/audiomanager/dist/mp3/dean-martin-on-an-evening-in-roma.mp3','Dean Martin - On an Evening in Roma');
 
 //audiomanager.play();
 
