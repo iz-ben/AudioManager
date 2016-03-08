@@ -243,11 +243,12 @@ co.ke.coterie.audio.Manager.prototype.playSound = function(soundId)
 		
 		this.activeSound = sound;
 		
-		this.frequencyData = new Uint8Array(this.activeSound.getAnalyser()['frequencyBinCount']);
-		
 		this.dispatchEvent( co.ke.coterie.audio.Manager.EventType.SOUNDCHANGE );
 		
 		this.play();
+	}else
+	{
+		this.togglePlay();
 	}
 }
 
@@ -257,6 +258,8 @@ co.ke.coterie.audio.Manager.prototype.playSound = function(soundId)
 co.ke.coterie.audio.Manager.prototype.play = function()
 {
 	this.playing_ = true;
+	
+	this.frequencyData = new Uint8Array(this.activeSound.getAnalyser()['frequencyBinCount']);
 	
 	this.activeSound.play();
 }
