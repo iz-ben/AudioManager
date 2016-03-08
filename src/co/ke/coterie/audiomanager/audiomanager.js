@@ -197,11 +197,11 @@ co.ke.coterie.audio.Manager.prototype.createSound = function( soundUrl, title )
 			
 		soundcloud.success = goog.bind(function( i, payload )
 		{
-			console.info('Audio Track ' + soundUrl + ' resolved');
+			console.info('Audio Track resolved', soundUrl );
 			
 			if(!payload['streamable'])
 			{
-				console.info(co.ke.coterie.audio.Manager.MESSAGE.NOTSTREAMABLE);
+				console.info(co.ke.coterie.audio.Manager.MESSAGE.NOTSTREAMABLE, soundUrl );
 				
 				return;
 			}
@@ -209,9 +209,9 @@ co.ke.coterie.audio.Manager.prototype.createSound = function( soundUrl, title )
 			
 			streamuri.setParameterValue('client_id', co.ke.coterie.audio.SoundCloud.API_KEY );	
 			
-			var sound = new co.ke.coterie.audio.Sound( audioManager, streamuri.toString(), title||'' );
+			var sound = new co.ke.coterie.audio.Sound( this, streamuri.toString(), title||'' );
 			
-			addSound.call(  audioManager, sound, i );
+			this.addSound.call(  audioManager, sound, i );
 		}, this, index)
 		
 		soundcloud.resolve();
