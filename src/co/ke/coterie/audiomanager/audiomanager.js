@@ -191,34 +191,30 @@ co.ke.coterie.audio.Manager.prototype.createSound = function( soundUrl, title )
 	{
 		var index = this.addSound( null ),
 		
-		audioManager = this,
+		audioManager = this;
 		
-		promise = new Promise(goog.bind(function( addSound )
+		var soundcloud = new co.ke.coterie.audio.SoundCloud( soundUrl );
+			
+		soundcloud.success = goog.bind(function( i, payload )
 		{
-			var soundcloud = new co.ke.coterie.audio.SoundCloud( soundUrl );
+			console.info('Audio Track ' + soundUrl + ' resolved');
 			
-			soundcloud.success = function( payload )
+			if(!payload['streamable'])
 			{
-				console.info('Audio Track ' + soundUrl + ' resolved');
+				console.info(co.ke.coterie.audio.Manager.MESSAGE.NOTSTREAMABLE);
 				
-				if(!payload['streamable'])
-				{
-					console.info(co.ke.coterie.audio.Manager.MESSAGE.NOTSTREAMABLE);
-					
-					return;
-				}
-				var streamuri = new goog.Uri( payload['stream_url'] );
-				
-				streamuri.setParameterValue('client_id', co.ke.coterie.audio.SoundCloud.API_KEY );	
-				
-				var sound = new co.ke.coterie.audio.Sound( audioManager, streamuri.toString(), title||'' );
-				
-				addSound.call(  audioManager, sound, index );
+				return;
 			}
+			var streamuri = new goog.Uri( payload['stream_url'] );
 			
-			soundcloud.resolve();
+			streamuri.setParameterValue('client_id', co.ke.coterie.audio.SoundCloud.API_KEY );	
 			
-		}, this, this.addSound));
+			var sound = new co.ke.coterie.audio.Sound( audioManager, streamuri.toString(), title||'' );
+			
+			addSound.call(  audioManager, sound, i );
+		}, this, index)
+		
+		soundcloud.resolve();
 		
 		return index;
 	}
