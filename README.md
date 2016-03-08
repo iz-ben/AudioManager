@@ -10,7 +10,9 @@ It is able to stream large audio files immediately without waiting for the brows
 
 It has the ability to play Soundcloud links provided that a Soundcloud client key is provided.
 
-## Implementation example
+Grab the compiled file from the ` /dist/js ` folder
+
+## Implementation examples
 
 ### Playing hosted sounds
 
