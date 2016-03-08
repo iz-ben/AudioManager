@@ -24,6 +24,7 @@ goog.require('goog.events.EventType');
 goog.require('goog.events.EventTarget');
 
 goog.require('co.ke.coterie.audio.Sound');
+goog.require('co.ke.coterie.audio.SoundCloud');
 
 /**
  * @constructor
@@ -33,7 +34,7 @@ co.ke.coterie.audio.Manager = function()
 {
 	goog.events.EventTarget.call(this);
 	
-	//initiate animatin frame
+	//initiate animation frame
 	this.animationFrame = window.requestAnimationFrame( goog.bind( this.animationFrameManager, this ) );
 }
 goog.inherits( co.ke.coterie.audio.Manager, goog.events.EventTarget );
@@ -50,7 +51,15 @@ co.ke.coterie.audio.Manager.EventType = {
 	READY: goog.events.getUniqueId('ready'),
 	RESUME: goog.events.getUniqueId('resume'),
 	STOP: goog.events.getUniqueId('stop'),
-	VOLUMECHANGE:goog.events.getUniqueId('volumechange')
+	VOLUMECHANGE:goog.events.getUniqueId('volumechange'),
+	SOUNDCLOUDRESOLVED:goog.events.getUniqueId('soundcloudresolved')
+}
+
+/**
+ * @enum {string}
+ */
+co.ke.coterie.audio.Manager.MESSAGE = {
+	NOTSTREAMABLE:'The soundcloud audio you provided is not streamable'
 }
 
 
@@ -134,17 +143,27 @@ co.ke.coterie.audio.Manager.prototype.setVolume = function( volume )
 }
 
 /**
- * @param {co.ke.coterie.audio.Sound} sound
+ * @param {co.ke.coterie.audio.Sound|null} sound
+ * @param {number=} index
  * @private
  * @return {number}
  */
-co.ke.coterie.audio.Manager.prototype.addSound = function( sound )
+co.ke.coterie.audio.Manager.prototype.addSound = function( sound, index )
 {
 	this.sounds_ = this.sounds_ || [];
 	
-	this.sounds_.push( sound );
+	if(sound)
+	{
+		this.activeSound = this.activeSound || sound;
+	}
 	
-	this.activeSound = this.activeSound || sound;
+	if(index)
+	{
+		this.sounds_[index] = sound;
+	}else
+	{
+		this.sounds_.push( sound );
+	}
 	
 	this.dispatchEvent( co.ke.coterie.audio.Manager.EventType.PLAYLISTCHANGE );
 	
@@ -162,13 +181,48 @@ co.ke.coterie.audio.Manager.prototype.getSounds = function()
 
 /**
  * @param {string} soundUrl
- * @param {string} title
+ * @param {string=} title
  * @expose
  * @return {number}
  */
 co.ke.coterie.audio.Manager.prototype.createSound = function( soundUrl, title )
 {
-	var sound = new co.ke.coterie.audio.Sound( this, soundUrl, title );
+	if( co.ke.coterie.audio.SoundCloud.isSoundCloud( soundUrl ) )
+	{
+		var index = this.addSound( null ),
+		
+		audioManager = this,
+		
+		promise = new Promise(goog.bind(function( addSound )
+		{
+			var soundcloud = new co.ke.coterie.audio.SoundCloud( soundUrl );
+			
+			soundcloud.success = function( payload )
+			{
+				console.info('Audio Track ' + soundUrl + ' resolved');
+				
+				if(!payload['streamable'])
+				{
+					console.info(co.ke.coterie.audio.Manager.MESSAGE.NOTSTREAMABLE);
+					
+					return;
+				}
+				var streamuri = new goog.Uri( payload['stream_url'] );
+				
+				streamuri.setParameterValue('client_id', co.ke.coterie.audio.SoundCloud.API_KEY );	
+				
+				var sound = new co.ke.coterie.audio.Sound( audioManager, streamuri.toString(), title||'' );
+				
+				addSound.call(  audioManager, sound, index );
+			}
+			
+			soundcloud.resolve();
+			
+		}, this, this.addSound));
+		
+		return index;
+	}
+	var sound = new co.ke.coterie.audio.Sound( this, soundUrl, title||'' );
 	
 	return this.addSound(sound);
 }
@@ -233,6 +287,12 @@ co.ke.coterie.audio.Manager.prototype.resume = function()
 	this.play();
 }
 
+/**
+ * @expose
+ * @type {Function|null|undefined}
+ */
+co.ke.coterie.audio.Manager.prototype.byteFrequencyData;
+
 co.ke.coterie.audio.Manager.prototype.processFrequencyData = function()
 {
 	if(!this.isPlaying())
@@ -240,7 +300,12 @@ co.ke.coterie.audio.Manager.prototype.processFrequencyData = function()
 	
 	this.activeSound.getAnalyser()['getByteFrequencyData']( this.frequencyData );
 	
-	console.log(this.frequencyData);
+	if(typeof this.byteFrequencyData == 'function')
+	{
+		this.byteFrequencyData( this.frequencyData );
+	}
+	
+	//console.log(this.frequencyData);
 }
 
 co.ke.coterie.audio.Manager.prototype.animationFrameManager = function()
@@ -250,4 +315,13 @@ co.ke.coterie.audio.Manager.prototype.animationFrameManager = function()
 	this.processFrequencyData();
 	
 	//console.log(this.animationFrame);
+}
+
+/**
+ * @expose
+ * Set the Soundcloud client key
+ */
+co.ke.coterie.audio.Manager.prototype.setSCKey = function( key )
+{
+	co.ke.coterie.audio.SoundCloud.API_KEY = key;	
 }

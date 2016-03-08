@@ -8,6 +8,10 @@
  
 goog.provide('co.ke.coterie.audio.SoundCloud');
 
+goog.require('goog.Uri');
+goog.require('goog.net.Jsonp');
+
+
 
 /**
  * @constructor
@@ -28,7 +32,7 @@ goog.inherits( co.ke.coterie.audio.SoundCloud, goog.events.EventTarget );
  * @enum {string}
  */
 co.ke.coterie.audio.SoundCloud.SETTINGS = {
-	RESOLVE_URL:''
+	RESOLVE_URL:'//api.soundcloud.com/resolve.json'
 }
 
 /**
@@ -41,6 +45,7 @@ co.ke.coterie.audio.SoundCloud.API_KEY;
  * @type {goog.Uri|null|undefined}
  */
 co.ke.coterie.audio.SoundCloud.prototype.audioUri;
+
 
 co.ke.coterie.audio.SoundCloud.prototype.resolve = function()
 {
@@ -71,7 +76,7 @@ co.ke.coterie.audio.SoundCloud.prototype.error = function()
 	
 }
 
-co.ke.coterie.audio.SoundCloud.isValid = function( audio_url )
+co.ke.coterie.audio.SoundCloud.isSoundCloud = function( audio_url )
 {
 	var uri = new goog.Uri( audio_url );
 	
