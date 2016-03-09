@@ -124,6 +124,7 @@ co.ke.coterie.audio.Manager.prototype.isReady = function()
 
 /**
  * @return {boolean}
+ * @expose
  */
 co.ke.coterie.audio.Manager.prototype.isPlaying = function()
 {

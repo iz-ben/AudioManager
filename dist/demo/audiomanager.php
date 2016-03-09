@@ -24,7 +24,7 @@
 
 <script src="../js/audiomanager.min.js"></script>
 <script>
-var audiomanager = AudioManager;
+var audiomanager = new AudioManager;
 
 audiomanager.setSCKey('29e520b21e2ce8431d8a2b0f88e84a8b');
 
