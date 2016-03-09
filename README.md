@@ -18,7 +18,7 @@ Grab the compiled file from the ` /dist/js ` folder
 
 ```
 
-var audiomanager = AudioManager;
+var audiomanager = new AudioManager;
 
 var blue = audiomanager.createSound('[ full web accesible url ]/eiffel65-blue.mp3','Eiffel 65 - Blue');
 
