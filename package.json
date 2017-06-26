@@ -8,13 +8,14 @@
   },
   "author": "ben",
   "license": "ISC",
+  "homepage":"http://coterie.co.ke",
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-closure-tools": "^0.9.9",
-    "grunt-contrib-cssmin": "^0.14.0",
-    "grunt-contrib-less": "^1.2.0",
-    "jit-grunt": "^0.9.1",
-    "load-grunt-config": "^0.17.2",
-    "time-grunt": "^1.2.1"
+    "bootstrap-sass": "^3.3.7",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.0.4",
+    "gulp-closure-compiler": "^0.4.0",
+    "gulp-header": "^1.8.8",
+    "laravel-elixir": "^6.0.0-15",
+    "lodash": "^4.17.4"
   }
 }

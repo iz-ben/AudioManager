@@ -1686,7 +1686,7 @@ a.audioplayer .bg-danger:hover {
     display: none !important;
   }
 }
-/* audioplayer.minimal.less */
+/* _player.scss */
 .audioplayer {
   border-top: #dddddd solid 1px;
   border-right: #dddddd solid 1px;

@@ -1,6 +1,7 @@
-bower_components/
+dist/vendor/
 node_modules/
 untitled.php
 Untitled-1.js
 mp3/
 dist/mp3
+.idea/
